@@ -1,0 +1,22 @@
+{
+    "name": "Oops, theres a problem",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "main.html",
+        "default_icon": "logo.png"
+    },
+    "permissions": ["scripting", "activeTab"],
+    "host_permissions": ["<all_urls>"],
+    "background": {
+        "service_worker": "main.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["withinContent.js"],
+            "run_at": "document_idle"
+        }
+    ]
+}
