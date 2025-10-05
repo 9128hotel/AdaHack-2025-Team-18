@@ -1,3 +1,7 @@
+html {
+    min-width: 20em;
+}
+
 body {
     color:darkred;
     font-family:Georgia, 'Times New Roman', Times, serif
