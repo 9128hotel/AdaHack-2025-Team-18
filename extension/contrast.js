@@ -54,21 +54,14 @@ function getBGColor(element) {
     return bgColor || [255, 255, 255]; 
 }
 
-function highlightElement(element, contrastRatio, bgColor, txtColor, recommendation) {
+function highlightElement(element, message) {
     element.style.outline = '3px solid red';
     element.style.outlineOffset = '2px';
     element.style.position = 'relative';
 
     const tooltip = document.createElement('div');
     tooltip.className = 'contrast-tooltip';
-    tooltip.innerHTML = `
-         <strong>⚠️ Poor Contrast Detected</strong><br>
-        Ratio: ${contrastRatio.toFixed(2)}:1 (needs 4.5:1)<br>
-        Text: rgb(${txtColor.join(', ')})<br>
-        Background: rgb(${bgColor.join(', ')})<br>
-        <em>${recommendation}</em>
-    `; 
-
+    tooltip.innerHTML =  message
     tooltip.style.cssText = `
         position: absolute;
         top: -10px;
@@ -111,40 +104,17 @@ function checkContrast(element) {
     if (contrast < 3.0) {
         const bgLum = getLum(bgColor[0], bgColor[1], bgColor[2]);
         
-        let recommendation;
         if (bgLum > 0.5) {
-            recommendation = '💡 Suggestion: Darken the text color';
+            return true
         } else {
-            recommendation = '💡 Suggestion: Lighten the text color';
+            return false
         }
         
-        highlightElement(element, contrast, bgColor, txtColor, recommendation);
+        highlightElement(element, "no good");
     }
 }
 
-function processElements() {
-    const txtelements = document.querySelectorAll('p, span, a, li, div, h1, h2, h3, h4, h5, h6, button, input, textarea, label');
-    
-    let poorContrastCount = 0;
-    
-    txtelements.forEach(element => {
-        if (element.textContent.trim().length > 0) {
-            const computed = window.getComputedStyle(element);
-            const txtColor = parseRGB(computed.color);
-            if (!txtColor) return;
-            
-            const bgColor = getBGColor(element);
-            const contrast = getContrastRatio(txtColor, bgColor);
-            
-            if (contrast < 3.0) {
-                poorContrastCount++;
-                checkContrast(element);
-            }
-        }
-    });
-}
 
-processElements();
 
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
