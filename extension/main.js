@@ -50,15 +50,15 @@ function processElements(elements){
         }
         if (!testMediaHasCaptions(el)) {
         const captionsResult = testMediaHasCaptions(el);
-        if (!captionsResult.hasSubtitles) {
+        if (!captionsResult == false) {
             issues.push("Missing Captions");
         }
             issues.push("Not Focusable by Tab");
         }
-        if (!testFormHasLabel(el)) {
+        if (!testFormHasLabel(el) == true) {
             issues.push("Not Form Labelled");
         }
-        if (!imgsWithoutAlts(el)) {
+        if (!imgsWithoutAlts(el) == true ) {
             issues.push("Image missing alt text");
         }
 
