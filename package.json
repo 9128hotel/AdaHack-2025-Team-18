@@ -1,0 +1,8 @@
+{
+  "name": "Oops, theres a problem!",
+  "version": "1.0.0",
+  "description": "TBD",
+  "devDependencies": {
+    "@types/chrome": "^0.1.22"
+  }
+}
