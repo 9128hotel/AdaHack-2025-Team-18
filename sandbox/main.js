@@ -42,10 +42,6 @@ function highlightElement(element, message) {
     element.addEventListener('mouseleave', () => {
         tooltip.style.display = 'none';
     });
-    
-    // Add data attribute for debugging
-    element.setAttribute('data-contrast-ratio', contrastRatio.toFixed(2));
-    element.setAttribute('data-contrast-issue', recommendation);
 }
 
 function testMediaHasCaptions(element) {
@@ -59,7 +55,7 @@ function testMediaHasCaptions(element) {
         const hasSubtitles = tracks.some(t => t.kind === "subtitles" || t.kind === "captions") || textTracks.some(t => t.kind === "subtitles" || t.kind === "captions");
 
         if (!hasSubtitles) {
-            video.style.border = "2px solid red";
+            //video.style.border = "2px solid red";
             highlightElement(video, "Video has no captions")
             
             badVideos.push(video);
