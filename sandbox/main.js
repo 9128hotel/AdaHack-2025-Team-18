@@ -175,10 +175,10 @@ function checkContrast(element) {
     const bgColor = getBGColor(element);
     const contrast = getContrastRatio(txtColor, bgColor);
 
-    if (contrast < 4.5) {
+    if (contrast < 20) {
         const bgLum = getLum(bgColor[0], bgColor[1], bgColor[2]);
         
-        let message = `Poor contrast: ${contrast.toFixed(2)}:1 (needs 4.5:1)`;
+        let message = `Poor contrast:`;
         if (bgLum > 0.5) {
             message += '<br>Use darker text';
         } else {
@@ -189,7 +189,6 @@ function checkContrast(element) {
     }
 }
 
-// Wait for DOM to be ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {
@@ -198,7 +197,6 @@ if (document.readyState === 'loading') {
 
 function init() {
     safeExecute(() => {
-        // Run initial checks
         const formIssues = testFormHasLabels(document);
         const results = testMediaHasCaptions(document);
         document.querySelectorAll('p, span, a, li, div, h1, h2, h3, h4, h5, h6, button, input, textarea, label').forEach(element => {
@@ -207,7 +205,6 @@ function init() {
 
         console.log(`Found ${formIssues.length} form issues and ${results.badVideos.length} video issues`);
 
-        // Set up observer for dynamic content
         const observer = new MutationObserver(mutations => {
             if (!isFrameValid) return;
             mutations.forEach(mutation => {
