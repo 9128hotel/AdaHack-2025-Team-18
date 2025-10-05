@@ -71,8 +71,6 @@ function testFormHasLabels(elements) {
 
     return badForms;
 }
-console.log("I beg something print")
+
 const formIssues = testFormHasLabels(document);
-chrome.runtime.sendMessage({ visibleHTML: formIssues });
 const results = testMediaHasCaptions(document);
-chrome.runtime.sendMessage({ visibleHTML: results });
