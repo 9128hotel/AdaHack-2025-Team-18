@@ -5,5 +5,7 @@ export function testMediaHasCaptions(element) {
         const textTracks = Array.from(video.textTracks) ;
         const hasSubtitles = tracks.some(t => (t.kind === "subtitles" || t.kind === "captions")) || textTracks.some(t => (t.kind === "subtitles" || t.kind === "captions"));
         return { hasSubtitles };
+    } else {
+        return { hasSubtitles: false };
     }
 }
