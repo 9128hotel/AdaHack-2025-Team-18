@@ -1,4 +1,4 @@
-function testMediaHasCaptions(element) {
+export function testMediaHasCaptions(element) {
     const video = element.getElementById("video") ;
     if (video) {
         const tracks = Array.from(video.getElementsByTagName("track")) ;

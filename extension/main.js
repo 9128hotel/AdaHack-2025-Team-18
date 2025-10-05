@@ -1,7 +1,12 @@
 // Remove import statements for web usage and assume required functions are available globally or included via <script> tags
 // Runs on web page side
 // Make sure highlight.js, captions.js, focusable.js, form_control.js, and imageAlts.js are loaded before this script
+import { checkContrast } from "./highlighter.js";
+import { testFormHasLabel } from "./form_control.js";
+import { testReachableByTab } from "./focusable.js";
 
+import { imgsWithoutAlts } from "./imageAlts.js";
+import {testMediaHasCaptions} from "./captions.js"
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     
@@ -15,8 +20,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 });
 
+console.log("test")
 function zip(a, b) {
-  return a.map((val, i) => [val, b[i]]);
+
+    
+    const result = [];
+    for (let i = 0; i < Math.min(a.length, b.length); i++) {
+        result.push([a[i], b[i]]);
+    }
+    return result;
 }
 
 
@@ -24,50 +36,43 @@ function zip(a, b) {
 
 
 function processElements(elements){
-    const placeHolder = Array.from({ length: elements.length }, () => []);
+    console.log("Processing elements:", elements.elements);
+    const placeHolder = Array.from({ length: elements.elements.length }, () => []);
 
-    let elementsAndIssues = zip(elements, placeHolder)
+    let elementsAndIssues = zip(elements.elements, placeHolder)
     console.log(elementsAndIssues)
-    elementsAndIssues.array.forEach(el, issues => {
-       setTimeout(() => {
-               
-            console.log("Processing element:", el);
-            if( checkContrast(el) == true){
-                issues.push("Poor Contrast")
-            }
-            if (!testMediaHasCaptions(el) == false){
-                issues.push("Missing Captions")
-            }
-            
-            if (!testReachableByTab(el) == false){
-                issues.push("Not Focusable by Tab")
-            }
-
-            if (!testFormHasLabel(el) == false){
-                issues.push("Not Form Labelled")
-            }
-            if (!imgsWithoutAlts(el) == false){
-                issues.push("Image missing alt text")
-            }
-
-            const listEl = document.createElement('ul');
-
-            if (issues.length > 0){
-                for (const text of issues) {
-                    const li = document.createElement("li");
-                    li.textContent = text;
-                    ul.appendChild(li);
-                }
-                highlightElement(el, listEl)
-
-            }
-
-
-            
-
-        }, 10);
-
     
-    });
+    for (let i = 0; i < elementsAndIssues.length; i++) {
+    const [el, issues] = elementsAndIssues[i];
+    setTimeout(() => {
+        console.log("Processing element:", el);
+        if (checkContrast(el)) {
+            issues.push("Poor Contrast");
+        }
+        if (!testMediaHasCaptions(el)) {
+            issues.push("Missing Captions");
+        }
+        if (!testReachableByTab(el)) {
+            issues.push("Not Focusable by Tab");
+        }
+        if (!testFormHasLabel(el)) {
+            issues.push("Not Form Labelled");
+        }
+        if (!imgsWithoutAlts(el)) {
+            issues.push("Image missing alt text");
+        }
+
+        const listEl = document.createElement('ul');
+
+        if (issues.length > 0) {
+            for (const text of issues) {
+                const li = document.createElement("li");
+                li.textContent = text;
+                listEl.appendChild(li);
+            }
+            highlightElement(el, listEl);
+        }
+    }, 10);
+}
 
 }
