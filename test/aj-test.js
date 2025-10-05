@@ -11,22 +11,21 @@ function imgsWithoutAlts(elems) {
     return badIDs
 }
 
-function checkNav() {
-    const elem = document.querySelector('nav')
+function checkSemantic(name){
+    const elem = document.querySelector(name)
     if (elem == []) {
-        return "Your document does not have a nav tag"
+        return false
     } else {
-        return ""
+        return true
     }
 }
 
-function checkMain() {
-    const elem = document.querySelector('main')
-    if (elem == []) {
-        return "Your document does not have a main tag"
-    } else {
-        return ""
+function checkSemantics(){
+    const semElements = [['article',false], ['aside',false], ['details',false], ['figcaption', false], ['figure',false], ['footer', false], ['header', false], ['main', false], ['mark', false], ['nav',false], ['section', false] ['summary',false], ['time',false]];
+    for (let i = 0; i < 13; i++) {
+        semElements[i,1] = checkSemantic([i,0])
     }
+    
 }
 
 /*
