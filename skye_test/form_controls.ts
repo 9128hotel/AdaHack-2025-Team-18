@@ -1,4 +1,4 @@
-function test_form_controls(elements: Document) {
+function testFormHasLabels(elements: Document) {
     const forms = elements.querySelectorAll<HTMLFormElement>("form")
     var badForms: (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement)[] = []
     for (const form of forms) {

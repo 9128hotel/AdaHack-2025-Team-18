@@ -1,4 +1,4 @@
-function testTabReachability(elements: Document) {
+function testReachableByTab(elements: Document) {
     var badElements: HTMLElement[] = []
 
     const focusableElements = elements.querySelectorAll<HTMLElement>(
