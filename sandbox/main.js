@@ -1,5 +1,53 @@
 console.log("Content script has been injected and is running");
 
+function highlightElement(element, message) {
+    element.style.outline = '3px solid red';
+    element.style.outlineOffset = '2px';
+    element.style.position = 'relative';
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'contrast-tooltip';
+    tooltip.innerHTML = message //`
+    //      <strong>⚠️ Poor Contrast Detected</strong><br>
+    //     Ratio: ${contrastRatio.toFixed(2)}:1 (needs 4.5:1)<br>
+    //     Text: rgb(${txtColor.join(', ')})<br>
+    //     Background: rgb(${bgColor.join(', ')})<br>
+    //     <em>${recommendation}</em>
+    // `; 
+
+    tooltip.style.cssText = `
+        position: absolute;
+        top: -10px;
+        left: 0;
+        background: #ff4444;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 11px;
+        line-height: 1.4;
+        z-index: 999999;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        min-width: 200px;
+        pointer-events: none;
+        display: none;
+    `;
+    
+    element.appendChild(tooltip);
+    
+    // Show tooltip on hover
+    element.addEventListener('mouseenter', () => {
+        tooltip.style.display = 'block';
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+    });
+    
+    // Add data attribute for debugging
+    element.setAttribute('data-contrast-ratio', contrastRatio.toFixed(2));
+    element.setAttribute('data-contrast-issue', recommendation);
+}
+
 function testMediaHasCaptions(element) {
     const videos = Array.from(element.querySelectorAll("video"));
 
@@ -12,6 +60,8 @@ function testMediaHasCaptions(element) {
 
         if (!hasSubtitles) {
             video.style.border = "2px solid red";
+            highlightElement(video, "Video has no captions")
+            
             badVideos.push(video);
         }
     }
