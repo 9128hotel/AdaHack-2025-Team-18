@@ -1,5 +1,5 @@
-function imgsWithoutAlts(elemtents) {
-    const imgs = elements.querySelectorAll('img');
+function imgsWithoutAlts(elems) {
+    const imgs = elems.querySelectorAll('img');
     var badIDs = []
     for (const img of imgs) {
         if (img.alt.length < 15){
