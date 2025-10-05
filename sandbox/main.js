@@ -70,7 +70,6 @@ function testMediaHasCaptions(element) {
                             textTracks.some(t => t.kind === "subtitles" || t.kind === "captions");
 
         if (!hasSubtitles) {
-            video.style.border = "2px solid red";
             highlightElement(video, "Video has no captions");
             badVideos.push(video);
         }
@@ -115,7 +114,6 @@ function testFormHasLabels(elements) {
                            (!!ariaLabel && ariaLabel.trim().length > 0);
 
             if (!hasLabel) {
-                element.style.border = "2px solid red";
                 highlightElement(element, "Form element missing label");
                 badForms.push(element);
             }
