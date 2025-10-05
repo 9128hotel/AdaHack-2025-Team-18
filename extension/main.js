@@ -6,6 +6,7 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     
     console.log("Message received in main.ts");
+    console.log(request);
     if (request.visibleHTML){
         processElements(request.visibleHTML);
     }
@@ -23,8 +24,9 @@ function zip(a, b) {
 
 
 function processElements(elements){
-    const placeHolder = [[]]
-    let elementsAndIssues = zip(elements.elements, placeHolder)
+    const placeHolder = Array.from({ length: elements.length }, () => []);
+
+    let elementsAndIssues = zip(elements, placeHolder)
     console.log(elementsAndIssues)
     elementsAndIssues.array.forEach(el, issues => {
        setTimeout(() => {

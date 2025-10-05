@@ -18,10 +18,13 @@ function visibleItem (element){
 function getElem(){
     const elem = document.querySelectorAll('*');
 
-    return Array.from(elem)
-        .filter(visibleItem)
-        .map(e => e.outerHTML);
-}
+    const list =  Array.from(elem)
+        .filter(visibleItem).map(e => e.outerHTML);
+
+    console.log(list)
+    return {elements: list};
+
+    }
 
 
 chrome.runtime.sendMessage({visibleHTML: getElem()});
