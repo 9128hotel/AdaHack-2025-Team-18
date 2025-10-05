@@ -1,8 +1,8 @@
 
 
 
-function visibleItem (element: Element): boolean {
-    const style: CSSStyleDeclaration = window.getComputedStyle(element);
+function visibleItem (element){
+    const style = window.getComputedStyle(element);
     const rect = element.getBoundingClientRect();
 
     return (
@@ -15,8 +15,8 @@ function visibleItem (element: Element): boolean {
     )
 }
 
-function getElem(): string[]{
-    const elem: NodeListOf<Element> = document.querySelectorAll('*');
+function getElem(){
+    const elem = document.querySelectorAll('*');
 
     return Array.from(elem)
         .filter(visibleItem)
@@ -27,4 +27,4 @@ function getElem(): string[]{
 chrome.runtime.sendMessage({visibleHTML: getElem()});
 
 
-
+console.log("Content script loaded");
