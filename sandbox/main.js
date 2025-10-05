@@ -1,15 +1,15 @@
 function testMediaHasCaptions(element) {
     const videos = Array.from(element.querySelectorAll("video"));
-    console.log(videos)
+
     const badVideos = [];
+    if (!videos) {return null};
     for (const video of videos) {
         const tracks = Array.from(video.getElementsByTagName("track"));
         const textTracks = Array.from(video.textTracks);
         const hasSubtitles = tracks.some(t => t.kind === "subtitles" || t.kind === "captions") || textTracks.some(t => t.kind === "subtitles" || t.kind === "captions");
 
-        // If the video does not have captions, add a red border
         if (!hasSubtitles) {
-            video.style.border = "2px solid red"; // Apply the red border
+            video.style.border = "2px solid red";
             badVideos.push(video);
         }
     }
@@ -19,7 +19,12 @@ function testMediaHasCaptions(element) {
 function testFormHasLabels(elements) {
     const forms = elements.querySelectorAll<HTMLFormElement>("form");
     var badForms = [];
-    
+    if (!forms) {
+        console.log("No forms");
+        return null;
+    }
+
+    console.log(forms);
     for (const form of forms) {
         const otherElements = [
             ...Array.from(form.querySelectorAll<HTMLInputElement>("input")),
@@ -29,6 +34,13 @@ function testFormHasLabels(elements) {
         ];
 
         const visibleOtherElements = otherElements.filter(c => !(c instanceof HTMLInputElement && c.type === "hidden"));
+
+        if (!visibleOtherElements) {
+            console.log("No elements");
+            return null;
+        }
+
+        console.log(visibleOtherElements);
 
         for (const element of visibleOtherElements) {
             // wrapped by or referenced by label
@@ -57,7 +69,7 @@ function testFormHasLabels(elements) {
 
     return badForms;
 }
-
+console.log("I beg something print")
 const formIssues = testFormHasLabels(document);
 chrome.runtime.sendMessage({ visibleHTML: formIssues });
 const results = testMediaHasCaptions(document);
