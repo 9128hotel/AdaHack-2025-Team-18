@@ -20,3 +20,23 @@ function testReachableByTab(elements: Document) {
 
     return badElements
 }
+
+function testReachableByTabSingular(element: HTMLElement) {
+    var badElements: HTMLElement[] = []
+
+    const selector = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const matchesRestrictions = (element: HTMLElement): boolean => {
+        if (!element.matches(selector)) {
+            return true;
+        } else {
+            element.focus();
+        
+            if (document.activeElement !== element) {
+                return false;
+            }
+
+            return true;
+        }
+    };
+}
