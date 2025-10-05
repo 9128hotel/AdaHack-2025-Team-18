@@ -13,13 +13,13 @@ function testLandmarkTags(element: Document) {
         const anyH1 = headings.find(h => h.level === 1);
 
         if (anyH1) {
-
-        } else {
             
+        } else {
+            return null;
         }
 
     } else {
-        return "No main";
+        return null;
     }
 }
 
