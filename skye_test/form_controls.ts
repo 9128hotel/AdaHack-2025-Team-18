@@ -54,7 +54,7 @@ function testFormHasLabel(element: HTMLFormElement) {
         const hasAriaLabelledBy = !!ariaLabelledBy && Array.from(element.querySelectorAll(`#${ariaLabelledBy.split(/\s+/).map(s => CSS.escape(s)).join(",#")}`)).length > 0 // element has ariaLabeledBy and the element its referencing exists within the form
         const ariaLabel = element.getAttribute("aria-label")
         const hasLabel = hasForLabel || isWrappedByLabel || hasAriaLabelledBy || (!!ariaLabel && ariaLabel.trim().length > 0)
-        if (!hasLabel) {return element}
+        if (!hasLabel) {return false}
     }
 
     // warn - not implemented yet
