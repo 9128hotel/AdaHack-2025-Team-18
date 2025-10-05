@@ -1,0 +1,14 @@
+body {
+    color:darkred;
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
+
+ul {
+  list-style-image: url('../rlly_shitty_website/warning.svg');
+  list-style-type: square;
+}
+
+ul li {
+    background:mistyrose;
+    margin:5px;
+}
