@@ -49,8 +49,8 @@ function testMediaHasCaptions(element) {
         const hasSubtitles = tracks.some(t => t.kind === "subtitles" || t.kind === "captions") || textTracks.some(t => t.kind === "subtitles" || t.kind === "captions");
 
         if (!hasSubtitles) {
-            video.style.border = "2px solid red";
-            highlightElement(video, "Video has no captions")
+            //video.style.border = "2px solid red";
+            highlightElement(video, "<p>Video has no captions</p>")
             
             badVideos.push(video);
         }
@@ -59,8 +59,9 @@ function testMediaHasCaptions(element) {
 }
 
 function testFormHasLabels(elements) {
-    const forms = elements.querySelectorAll<HTMLFormElement>("form");
+    const forms = Array.from(elements.querySelectorAll<HTMLFormElement>("form"));
     var badForms = [];
+
     if (!forms) {
         console.log("No forms");
         return null;

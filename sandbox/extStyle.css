@@ -1,0 +1,27 @@
+html {
+    min-width: 20em;
+}
+
+body {
+    color:darkred;
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
+
+ul {
+  list-style-image: url('./warning.svg');
+  list-style-type: square;
+}
+
+ul li {
+    background:mistyrose;
+    margin:5px;
+    border:2px solid crimson;
+    border-radius: 5px; 
+    padding-left: 5px;
+    padding-bottom:1px
+}
+
+h2 {
+    border-left: 5px double crimson;
+    padding-left:5px;
+}
