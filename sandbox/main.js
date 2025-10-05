@@ -1,0 +1,64 @@
+function testMediaHasCaptions(element) {
+    const videos = Array.from(element.querySelectorAll("video"));
+    console.log(videos)
+    const badVideos = [];
+    for (const video of videos) {
+        const tracks = Array.from(video.getElementsByTagName("track"));
+        const textTracks = Array.from(video.textTracks);
+        const hasSubtitles = tracks.some(t => t.kind === "subtitles" || t.kind === "captions") || textTracks.some(t => t.kind === "subtitles" || t.kind === "captions");
+
+        // If the video does not have captions, add a red border
+        if (!hasSubtitles) {
+            video.style.border = "2px solid red"; // Apply the red border
+            badVideos.push(video);
+        }
+    }
+    return { badVideos };
+}
+
+function testFormHasLabels(elements) {
+    const forms = elements.querySelectorAll<HTMLFormElement>("form");
+    var badForms = [];
+    
+    for (const form of forms) {
+        const otherElements = [
+            ...Array.from(form.querySelectorAll<HTMLInputElement>("input")),
+            ...Array.from(form.querySelectorAll<HTMLSelectElement>("select")),
+            ...Array.from(form.querySelectorAll<HTMLTextAreaElement>("textarea")),
+            ...Array.from(form.querySelectorAll<HTMLButtonElement>("button")),
+        ];
+
+        const visibleOtherElements = otherElements.filter(c => !(c instanceof HTMLInputElement && c.type === "hidden"));
+
+        for (const element of visibleOtherElements) {
+            // wrapped by or referenced by label
+            const id = element.id;
+            const hasForLabel = id ? !!form.querySelector(`label[for="${CSS.escape(id)}"]`) : false;
+            const isWrappedByLabel = !!element.closest("label");
+
+            const ariaLabelledBy = element.getAttribute("aria-labelledby");
+            const hasAriaLabelledBy = !!ariaLabelledBy && Array.from(form.querySelectorAll(`#${ariaLabelledBy.split(/\s+/).map(s => CSS.escape(s)).join(",#")}`)).length > 0; // element has ariaLabeledBy and the element its referencing exists within the form
+            const ariaLabel = element.getAttribute("aria-label");
+
+            const hasLabel = hasForLabel || isWrappedByLabel || hasAriaLabelledBy || (!!ariaLabel && ariaLabel.trim().length > 0);
+
+            // If the element does not have a label, apply red border and add to badForms
+            if (!hasLabel) {
+                element.style.border = "2px solid red"; // Apply a red border to the element
+                badForms.push(element);
+            }
+        }
+
+        // warn - not implemented yet
+        if (form.querySelectorAll("fieldset").length > form.querySelectorAll("legend").length) {
+            console.log("WARN: All fieldsets should have a legend");
+        }
+    }
+
+    return badForms;
+}
+
+const formIssues = testFormHasLabels(document);
+chrome.runtime.sendMessage({ visibleHTML: formIssues });
+const results = testMediaHasCaptions(document);
+chrome.runtime.sendMessage({ visibleHTML: results });

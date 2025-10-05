@@ -26,6 +26,9 @@ function zip(a, b) {
 function processElements(elements){
     const placeHolder = Array.from({ length: elements.length }, () => []);
 
+    console.log(elements)
+    console.log(placeHolder)
+
     let elementsAndIssues = zip(elements, placeHolder)
     console.log(elementsAndIssues)
     elementsAndIssues.array.forEach(el, issues => {
