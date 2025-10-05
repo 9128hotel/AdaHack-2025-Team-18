@@ -7,13 +7,7 @@ function highlightElement(element, message) {
 
     const tooltip = document.createElement('div');
     tooltip.className = 'contrast-tooltip';
-    tooltip.innerHTML = message //`
-    //      <strong>⚠️ Poor Contrast Detected</strong><br>
-    //     Ratio: ${contrastRatio.toFixed(2)}:1 (needs 4.5:1)<br>
-    //     Text: rgb(${txtColor.join(', ')})<br>
-    //     Background: rgb(${bgColor.join(', ')})<br>
-    //     <em>${recommendation}</em>
-    // `; 
+    tooltip.innerHTML = message; // Now using the message parameter correctly
 
     tooltip.style.cssText = `
         position: absolute;
@@ -42,10 +36,6 @@ function highlightElement(element, message) {
     element.addEventListener('mouseleave', () => {
         tooltip.style.display = 'none';
     });
-    
-    // Add data attribute for debugging
-    element.setAttribute('data-contrast-ratio', contrastRatio.toFixed(2));
-    element.setAttribute('data-contrast-issue', recommendation);
 }
 
 function testMediaHasCaptions(element) {
