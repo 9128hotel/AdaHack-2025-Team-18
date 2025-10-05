@@ -8,7 +8,7 @@ body {
 }
 
 ul {
-  list-style-image: url('../rlly_shitty_website/warning.svg');
+  list-style-image: url('./warning.svg');
   list-style-type: square;
 }
 
