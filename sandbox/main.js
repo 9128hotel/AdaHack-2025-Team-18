@@ -70,7 +70,8 @@ function testMediaHasCaptions(element) {
                             textTracks.some(t => t.kind === "subtitles" || t.kind === "captions");
 
         if (!hasSubtitles) {
-            highlightElement(video, "Video has no captions");
+            let message = `<br>Video has no captions`;
+            highlightElement(video, message);
             badVideos.push(video);
         }
     }
@@ -114,8 +115,9 @@ function testFormHasLabels(elements) {
                            (!!ariaLabel && ariaLabel.trim().length > 0);
 
             if (!hasLabel) {
-                highlightElement(element, "Form element missing label");
                 badForms.push(element);
+                let message = `<br>Form element missing label`;
+                highlightElement(element, message);
             }
         }
 
