@@ -1,16 +1,12 @@
 {
     "name": "Oops, theres a problem",
     "description": "Base Level Extension",
-    "permissions": ["scripting", "activeTab"],
+    "permissions": ["scripting", "activeTab", "offscreen"],
     "host_permissions": ["<all_urls>"],
     "background": {
-        "service_worker": "background.js",
-        "run_at": "document_idle"
+        "service_worker": "background.js"
     },
     "version": "1.0",
     "manifest_version": 3,
-    "action": {
-        "default_popup": "main.html",
-        "default_icon": "logo.png"
-    }
+    "action": {}
 }

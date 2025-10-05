@@ -1,3 +1,5 @@
+console.log("Content script has been injected and is running");
+
 function testMediaHasCaptions(element) {
     const videos = Array.from(element.querySelectorAll("video"));
 
