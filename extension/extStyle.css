@@ -15,4 +15,8 @@ ul {
 ul li {
     background:mistyrose;
     margin:5px;
+    border:2px solid crimson;
+    border-radius: 5px; 
+    padding-left: 5px;
+    padding-bottom:1px
 }
