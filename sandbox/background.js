@@ -1,22 +1,33 @@
-console.log("PLEASE")
+console.log("Background script loaded");
 
-//chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//    const currentTab = tabs[0];
-//    chrome.action.onClicked.dispatch({ tabId: currentTab.id });
-//    console.log("Current Tab ID:", currentTab.id); // Access the tabId here
-//});
-
-chrome.action.onClicked.addListener((tab) => {
-    console.log("woohoo!!")
+chrome.action.onClicked.addListener(async (tab) => {
+    console.log("Extension clicked!");
     
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: ['main.js']
-    });
-});
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.visibleHTML) {
-        //console.log("Output:", request.visibleHTML.form);
+    // Check if tab is valid
+    if (!tab || !tab.id) {
+        console.error("Invalid tab");
+        return;
+    }
+    
+    // Check if URL is accessible
+    if (tab.url.startsWith('chrome://') || 
+        tab.url.startsWith('chrome-extension://') ||
+        tab.url.startsWith('edge://') ||
+        tab.url.startsWith('about:')) {
+        console.log("Cannot inject into browser pages");
+        return;
+    }
+    
+    try {
+        await chrome.scripting.executeScript({
+            target: { 
+                tabId: tab.id,
+                allFrames: false
+            },
+            files: ['main.js']
+        });
+        console.log("Accessibility checker injected successfully!");
+    } catch (error) {
+        console.error("Injection failed:", error.message);
     }
 });
