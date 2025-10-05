@@ -5,7 +5,10 @@
   "devDependencies": {
     "@types/chrome": "^0.1.22"
   },
-  "scripts" : {
+  "scripts": {
     "build": "tsc"
+  },
+  "dependencies": {
+    "tesseract.js": "^5.0.4"
   }
 }
