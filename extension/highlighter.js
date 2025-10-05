@@ -6,21 +6,6 @@ function getLum(r, g, b) {
     return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
 }
 
-function getContrast(rgb1, rgb2) {
-    const lum1 = getLum(rgb1[0], rgb1[1], rgb1[2]);
-    const lum2 = getLum(rgb2[0], rgb2[1], rgb2[2]);
-    const brightest = Math.max(lum1, lum2);
-    const darkest = Math.min(lum1, lum2);
-    return (brightest + 0.05) / (darkest + 0.05);
-}
-
-function hexToRgb(hex) {
-    const bigint = parseInt(hex.slice(1), 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    return [r, g, b];
-}
 
 function getContrastRatio(rgb1, rgb2) {
     const lum1 = getLum(rgb1[0], rgb1[1], rgb1[2]);
@@ -54,20 +39,20 @@ function getBGColor(element) {
     return bgColor || [255, 255, 255]; 
 }
 
-function highlightElement(element, contrastRatio, bgColor, txtColor, recommendation) {
+function highlightElement(element, message) {
     element.style.outline = '3px solid red';
     element.style.outlineOffset = '2px';
     element.style.position = 'relative';
 
     const tooltip = document.createElement('div');
     tooltip.className = 'contrast-tooltip';
-    tooltip.innerHTML = `
-         <strong>⚠️ Poor Contrast Detected</strong><br>
-        Ratio: ${contrastRatio.toFixed(2)}:1 (needs 4.5:1)<br>
-        Text: rgb(${txtColor.join(', ')})<br>
-        Background: rgb(${bgColor.join(', ')})<br>
-        <em>${recommendation}</em>
-    `; 
+    tooltip.innerHTML = message //`
+    //      <strong>⚠️ Poor Contrast Detected</strong><br>
+    //     Ratio: ${contrastRatio.toFixed(2)}:1 (needs 4.5:1)<br>
+    //     Text: rgb(${txtColor.join(', ')})<br>
+    //     Background: rgb(${bgColor.join(', ')})<br>
+    //     <em>${recommendation}</em>
+    // `; 
 
     tooltip.style.cssText = `
         position: absolute;
@@ -102,7 +87,7 @@ function highlightElement(element, contrastRatio, bgColor, txtColor, recommendat
     element.setAttribute('data-contrast-issue', recommendation);
 }
 
-function checkContrast(element) {
+export function checkContrast(element) {
     const computed = window.getComputedStyle(element);
     const txtColor = parseRGB(computed.color);
     if (!txtColor) return;
@@ -123,33 +108,14 @@ function checkContrast(element) {
             recommendation = '💡 Suggestion: Lighten the text color';
         }
         
-        highlightElement(element, contrast, bgColor, txtColor, recommendation);
+
+        return True
+        //highlightElement(element, contrast, bgColor, txtColor, recommendation);
     }
 }
 
-function processElements() {
-    const txtelements = document.querySelectorAll('p, span, a, li, div, h1, h2, h3, h4, h5, h6, button, input, textarea, label');
-    
-    let poorContrastCount = 0;
-    
-    txtelements.forEach(element => {
-        if (element.textContent.trim().length > 0) {
-            const computed = window.getComputedStyle(element);
-            const txtColor = parseRGB(computed.color);
-            if (!txtColor) return;
-            
-            const bgColor = getBGColor(element);
-            const contrast = getContrastRatio(txtColor, bgColor);
-            
-            if (contrast < 3.0) {
-                poorContrastCount++;
-                checkContrast(element);
-            }
-        }
-    });
-}
 
-processElements();
+
 
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
