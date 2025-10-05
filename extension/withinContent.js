@@ -1,4 +1,4 @@
-
+// Inserted into webpage, runs on wepage side 
 
 
 function visibleItem (element){

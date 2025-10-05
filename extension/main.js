@@ -1,14 +1,11 @@
-//Runs on extension side 
-import {checkContrast, highlightElement } from "./highlight.js";
-import { testMediaHasCaptions } from "./captions.js";
-import { testReachableByTab } from "./focusable.js";
-import { testFormHasLabel } from "./form_control.js";
-import { imgsWithoutAlts } from "./imageAlts.js"; 
+// Remove import statements for web usage and assume required functions are available globally or included via <script> tags
+// Runs on web page side
+// Make sure highlight.js, captions.js, focusable.js, form_control.js, and imageAlts.js are loaded before this script
 
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     
-    console.log("Message received in pop.ts");
+    console.log("Message received in main.ts");
     if (request.visibleHTML){
         processElements(request.visibleHTML);
     }
@@ -17,15 +14,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 });
 
+function zip(a, b) {
+  return a.map((val, i) => [val, b[i]]);
+}
+
+
+
 
 
 function processElements(elements){
     const placeHolder = [[]]
-    let elementsAndIssues = zip(elements, placeHolder)
-
+    let elementsAndIssues = zip(elements.elements, placeHolder)
+    console.log(elementsAndIssues)
     elementsAndIssues.array.forEach(el, issues => {
        setTimeout(() => {
                
+            console.log("Processing element:", el);
             if( checkContrast(el) == true){
                 issues.push("Poor Contrast")
             }
@@ -59,7 +63,7 @@ function processElements(elements){
 
             
 
-        }, 1000);
+        }, 10);
 
     
     });
