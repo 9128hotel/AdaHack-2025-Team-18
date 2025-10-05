@@ -7,6 +7,7 @@
         "default_popup": "main.html",
         "default_icon": "logo.png"
     },
+<<<<<<< HEAD
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
@@ -14,4 +15,17 @@
         }
     ]
 
+=======
+    "permissions": ["scripting", "activeTab"],
+    "host_permissions": ["<all_urls>"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ]
+>>>>>>> eeb64f99a7fe6ed535aa5ae52897744f82ca0225
 }
