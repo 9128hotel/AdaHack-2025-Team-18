@@ -20,6 +20,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 });
 
+console.log("test")
 function zip(a, b) {
 
     
@@ -49,16 +50,15 @@ function processElements(elements){
             issues.push("Poor Contrast");
         }
         if (!testMediaHasCaptions(el)) {
-        const captionsResult = testMediaHasCaptions(el);
-        if (!captionsResult == false) {
             issues.push("Missing Captions");
         }
+        if (!testReachableByTab(el)) {
             issues.push("Not Focusable by Tab");
         }
-        if (!testFormHasLabel(el) == true) {
+        if (!testFormHasLabel(el)) {
             issues.push("Not Form Labelled");
         }
-        if (!imgsWithoutAlts(el) == true ) {
+        if (!imgsWithoutAlts(el)) {
             issues.push("Image missing alt text");
         }
 
