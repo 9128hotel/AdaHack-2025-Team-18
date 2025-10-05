@@ -8,7 +8,7 @@ body {
 }
 
 ul {
-  list-style-image: url('../rlly_shitty_website/warning.svg');
+  list-style-image: url('./warning.svg');
   list-style-type: square;
 }
 
@@ -19,4 +19,9 @@ ul li {
     border-radius: 5px; 
     padding-left: 5px;
     padding-bottom:1px
+}
+
+h2 {
+    border-left: 5px double crimson;
+    padding-left:5px;
 }
