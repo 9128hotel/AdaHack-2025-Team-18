@@ -15,7 +15,9 @@ function test_form_controls(elements: Document) {
         }
 
         // warn - not implemented yet
-        
+        if (form.querySelectorAll("fieldset").length > form.querySelectorAll("legend").length) {
+            console.log("WARN: All fieldsets should have a legend")
+        }
     }
 
     return badForms
